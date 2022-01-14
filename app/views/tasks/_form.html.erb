@@ -1,9 +1,19 @@
 <%= form_with(model: task) do |f| %>
+  <% if task.errors.any? %>
+    <ul>
+      <% task.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  <% end %>
   
   <%= f.label :content, 'タスク' %>
   <%= f.text_field :content %>
+    
+  <%= f.label :status, 'ステータス' %>
+  <%= f.text_field :status %>
   
-  <% if controller.action_name == 'new' %>
+  <% if controller.action_name == 'new' || controller.action_name == 'create' %>
     <%= f.submit '作成' %>
   <% else %>
     <%= f.submit '更新' %>
