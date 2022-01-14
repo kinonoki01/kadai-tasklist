@@ -1,0 +1,11 @@
+<%= form_with(model: task) do |f| %>
+  
+  <%= f.label :content, 'タスク' %>
+  <%= f.text_field :content %>
+  
+  <% if controller.action_name == 'new' %>
+    <%= f.submit '作成' %>
+  <% else %>
+    <%= f.submit '更新' %>
+  <% end %>
+<% end %>
