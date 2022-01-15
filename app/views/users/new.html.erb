@@ -1,7 +1,9 @@
-<h1>Sign up</h1>
+<div class="text-center">
+  <h1>Sign up</h1>
+</div>
 
 <div class="row">
-  <div class="col-6">
+  <div class="col-sm-6 offset-sm-3">
     <%= form_with model: @user do |f| %>
       <% if @user.errors.any? %>
         <div class="alert alert-warning">

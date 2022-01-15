@@ -1,19 +1,25 @@
 class TasksController < ApplicationController
+  before_action :require_user_logged_in
   before_action :find_task, only: [:show, :edit, :update, :destroy]
   
   def index
-    @pagy, @tasks = pagy(Task.all)
+    @tasks = current_user.tasks.build
+    @pagy, @tasks = pagy(current_user.tasks.all)
   end
   
   def show
+    if !@task
+      flash[:warning] = '選択したIDのタスクは存在しません'
+      redirect_to root_url
+    end
   end
   
   def new
-    @task = Task.new
+    @task = current_user.tasks.build
   end
   
   def create
-    @task = Task.new(task_params)
+    @task = current_user.tasks.build(task_params)
     
     if @task.save
       flash[:success] = 'タスクを作成しました'
@@ -46,10 +52,10 @@ class TasksController < ApplicationController
   private
   
   def task_params
-    params.require(:task).permit(:content, :status)
+    params.require(:task).permit(:content, :status, :user_id)
   end
   
   def find_task
-    @task = Task.find(params[:id])
+    @task = current_user.tasks.find_by(id: params[:id])
   end
 end
